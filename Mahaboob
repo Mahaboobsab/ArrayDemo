@@ -1,0 +1,47 @@
+import UIKit
+
+
+// var array1 = [8, 8, 7, 2, 1, 7, 9]
+// var array2 = [14, 8, 2, 7, 7]
+
+var array1 = [9, 4, 7, 9, 3]
+var array2 = [9, 11, 9, 13, 9]
+
+var containsInBoth = [Int]()
+var finalArray = [Int]()
+
+let x = solve(arrayFirst: array1, arraySecond: array2)
+print(x)
+
+func solve(arrayFirst: [Int], arraySecond: [Int]) ->[Int] {
+    var missingTemp = [Int]()
+    var repeatedTemp = [Int]()
+    for element in arraySecond {
+        if !arrayFirst.contains(element) {
+            missingTemp.append(element)
+        } else {
+            containsInBoth.append(element)
+        }
+    }
+    for element in arrayFirst {
+        if !containsInBoth.contains(element) {
+            if let index = arrayFirst.firstIndex(of: element) {
+                array1 = array1.filter { $0 != element }
+            }
+        }
+    }
+    for i in array2 {
+        if array1.contains(i) {
+            if let ind = array1.index(of:i) {
+                array1.remove(at:ind)
+                array2.remove(at:ind)
+            }
+        }
+    }
+    finalArray.append(contentsOf: missingTemp)
+    finalArray.append(contentsOf: array1)
+    finalArray.append(contentsOf: array2)
+    finalArray = Set(finalArray).sorted()
+    return finalArray
+}
+
